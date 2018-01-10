@@ -1,5 +1,6 @@
 package edu.udacity.faraonc.newsapp;
 
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,26 +17,42 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by faraonc on 1/9/18.
+ * The NewsAdapter for the LisView.
+ *
+ * @author ConardJames
+ * @version 010918-01
  */
-
 class NewsAdapter extends ArrayAdapter {
 
     private static final String LOG_TAG = NewsAdapter.class.getName();
 
+    /**
+     * Construct a NewsAdapter with the given list of News.
+     *
+     * @param context       for resource access
+     * @param newsArrayList the list of news.
+     */
     NewsAdapter(Context context, ArrayList<News> newsArrayList) {
         super(context, 0, newsArrayList);
     }
 
     @NonNull
     @Override
+    /**
+     * Get the view for each entry.
+     *
+     * @param   position    current index in the adapter.
+     * @param   convertView recycled view.
+     * @param   parent      contains the view.
+     * @return the view for the entry.
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItemView = convertView;
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.news_list_item, parent, false);
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.title = (TextView) listItemView.findViewById(R.id.title);
-            viewHolder.author = (TextView) listItemView.findViewById(R.id.author);
+            viewHolder.author = (TextView) listItemView.findViewById(R.id.contributors);
             viewHolder.date = (TextView) listItemView.findViewById(R.id.date);
             listItemView.setTag(viewHolder);
         }
@@ -43,7 +60,7 @@ class NewsAdapter extends ArrayAdapter {
         ViewHolder viewHolder = (ViewHolder) listItemView.getTag();
         News item = (News) getItem(position);
         viewHolder.title.setText(item.getTitle());
-        viewHolder.author.setText(item.getAuthor());
+        viewHolder.author.setText(item.getContributors());
 
         Date dateObject = null;
         try {
@@ -64,7 +81,9 @@ class NewsAdapter extends ArrayAdapter {
         return listItemView;
     }
 
-    /* For caching.*/
+    /**
+     * For caching.
+     */
     private class ViewHolder {
         private TextView title;
         private TextView author;
@@ -73,6 +92,9 @@ class NewsAdapter extends ArrayAdapter {
 
     /**
      * Return the formatted date string (i.e. "Mar 3, 1984") from a Date object.
+     *
+     * @param dateObject the Date to be used for formatting
+     * @return the formatted String representation
      */
     private String formatDate(Date dateObject) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
@@ -81,6 +103,9 @@ class NewsAdapter extends ArrayAdapter {
 
     /**
      * Return the formatted date string (i.e. "4:30 PM") from a Date object.
+     *
+     * @param dateObject the Date to be used for formatting
+     * @return the formatted String representation
      */
     private String formatTime(Date dateObject) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");

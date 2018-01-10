@@ -1,5 +1,6 @@
 package edu.udacity.faraonc.newsapp;
 
+
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -19,9 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by faraonc on 1/9/18.
+ * Utility class for accessing external web services using JSON formatted data.
+ *
+ * @author ConardJames
+ * @version 010918-01
  */
-
 final class JSONHelper {
 
     private static final String LOG_TAG = JSONHelper.class.getSimpleName();
@@ -35,11 +38,19 @@ final class JSONHelper {
     private static final String COMMA = ", ";
     private static final String ANONYMOUS = "Anonymous";
 
+    /*
+     * Disable instantiation. Utility class only.
+     */
     private JSONHelper() {
     }
 
+    /**
+     * Fetch a list news using the url.
+     *
+     * @param requestUrl the url for the request
+     * @return a list of News
+     */
     static List<News> fetch(String requestUrl) {
-
         URL url = toUrl(requestUrl);
         String jsonResponse = null;
         try {
@@ -52,6 +63,12 @@ final class JSONHelper {
         return newsList;
     }
 
+    /**
+     * Convert the string into a URL object.
+     *
+     * @param stringUrl the string to be converted
+     * @return the URL object of the string
+     */
     private static URL toUrl(String stringUrl) {
         URL url = null;
         try {
@@ -62,10 +79,16 @@ final class JSONHelper {
         return url;
     }
 
+    /**
+     * Send our HTTP request using the URL object.
+     *
+     * @param url the URL object containing the request
+     * @return the JSON response from the server
+     * @throws IOException
+     */
     private static String sendHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
-        // If the URL is null, then return early.
         if (url == null) {
             return jsonResponse;
         }
@@ -98,6 +121,13 @@ final class JSONHelper {
         return jsonResponse;
     }
 
+    /**
+     * Read the inputstream from the server.
+     *
+     * @param inputStream the byte stream from the server
+     * @return the response of the server as String
+     * @throws IOException
+     */
     private static String readInputStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
@@ -112,6 +142,12 @@ final class JSONHelper {
         return output.toString();
     }
 
+    /**
+     * Extract values from the server's response.
+     *
+     * @param jsonResponse the server's response.
+     * @return a list of News based on the server's response
+     */
     private static List<News> extractJsonValues(String jsonResponse) {
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
@@ -129,7 +165,10 @@ final class JSONHelper {
                 String date = currentResult.optString(WEB_PUBLICATION_DATE_KEY);
                 String url = currentResult.optString(WEB_URL_KEY);
 
+                //assume no author found
                 String author = ANONYMOUS;
+
+                //get all the authors.
                 JSONArray authors = currentResult.optJSONArray(TAGS_KEY);
                 if (authors != null && authors.length() > 0) {
                     StringBuilder stringBuilder = new StringBuilder();

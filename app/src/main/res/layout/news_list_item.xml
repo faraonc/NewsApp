@@ -9,7 +9,7 @@
         tools:text="@string/place_holder_title" />
 
     <TextView
-        android:id="@+id/author"
+        android:id="@+id/contributors"
         style="@style/ListItemSubtitleStyle"
         tools:text="@string/place_holder_contributor" />
 
