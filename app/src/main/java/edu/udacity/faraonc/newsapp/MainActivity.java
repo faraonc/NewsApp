@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
 
-    private final static String URL_QUERY = "http://content.guardianapis.com/search?section=technology&order-by=newest&use-date=published&show-tags=contributor&show-elements=all&page-size=30&rights=developer-community";
+    private final static String URL_QUERY = "http://content.guardianapis.com/search?order-by=newest&show-tags=contributor&page-size=30&rights=developer-community&q=Military%20AND%20Technology%20AND%20Computer%20AND%20Science";
     private final static String API_KEY = "&api-key=4b18329f-35c4-4dee-acb6-2b74e885c526";
     public static final String LOG_TAG = MainActivity.class.getName();
     private static final int NEWS_LOADER_ID = 0;

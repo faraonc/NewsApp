@@ -9,13 +9,20 @@
         tools:text="@string/place_holder_title" />
 
     <TextView
+        android:id="@+id/section"
+        style="@style/ListItemSectionStyle"
+        tools:text="@string/place_holder_section" />
+
+    <TextView
         android:id="@+id/contributors"
         style="@style/ListItemSubtitleStyle"
+        android:paddingBottom="@dimen/contributor_margin"
         tools:text="@string/place_holder_contributor" />
 
     <TextView
         android:id="@+id/date"
         style="@style/ListItemSubtitleStyle"
+        android:fontFamily="sans-serif-condensed"
         tools:text="@string/place_holder_date" />
 
 </LinearLayout>

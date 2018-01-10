@@ -12,7 +12,7 @@ import android.os.Parcelable;
  */
 class News implements Parcelable {
 
-    private String title, contributors, date, url;
+    private String title, contributors, date, url, section;
 
     /**
      * Create a News object.
@@ -21,12 +21,14 @@ class News implements Parcelable {
      * @param contributors contributors of the news
      * @param date         published date
      * @param url          the url of the news
+     * @param section      news section
      */
-    News(String title, String contributors, String date, String url) {
+    News(String title, String contributors, String date, String url, String section) {
         this.title = title;
         this.contributors = contributors;
         this.date = date;
         this.url = url;
+        this.section = section;
     }
 
     /**
@@ -48,6 +50,15 @@ class News implements Parcelable {
      */
     String getTitle() {
         return this.title;
+    }
+
+    /**
+     * Get the section of the news.
+     *
+     * @return the section
+     */
+    String getSection() {
+        return this.section;
     }
 
     /**

@@ -54,6 +54,7 @@ class NewsAdapter extends ArrayAdapter {
             viewHolder.title = (TextView) listItemView.findViewById(R.id.title);
             viewHolder.author = (TextView) listItemView.findViewById(R.id.contributors);
             viewHolder.date = (TextView) listItemView.findViewById(R.id.date);
+            viewHolder.section = (TextView) listItemView.findViewById(R.id.section);
             listItemView.setTag(viewHolder);
         }
 
@@ -61,21 +62,18 @@ class NewsAdapter extends ArrayAdapter {
         News item = (News) getItem(position);
         viewHolder.title.setText(item.getTitle());
         viewHolder.author.setText(item.getContributors());
+        viewHolder.section.setText(item.getSection());
+        String dateString = item.getDate();
 
-        Date dateObject = null;
         try {
-            dateObject = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(item.getDate());
-        } catch (ParseException e) {
-            Log.e(LOG_TAG, "Error in parsing date into a Date object ", e);
-        }
-        if (dateObject != null) {
+            Date dateObject = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(dateString);
             String formattedDate = formatDate(dateObject);
             String formattedTime = formatTime(dateObject);
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(formattedDate).append(" ").append(formattedTime);
             viewHolder.date.setText(stringBuilder.toString());
-        } else {
-            viewHolder.date.setText(R.string.empty);
+        } catch (ParseException e) {
+            viewHolder.date.setText(dateString);
         }
 
         return listItemView;
@@ -88,6 +86,7 @@ class NewsAdapter extends ArrayAdapter {
         private TextView title;
         private TextView author;
         private TextView date;
+        private TextView section;
     }
 
     /**

@@ -35,8 +35,11 @@ final class JSONHelper {
     private static final String WEB_PUBLICATION_DATE_KEY = "webPublicationDate";
     private static final String TAGS_KEY = "tags";
     private static final String AUTHOR_KEY = "webTitle";
+    private static final String SECTION_KEY = "sectionName";
     private static final String COMMA = ", ";
     private static final String ANONYMOUS = "Anonymous";
+    private static final String NO_DATE = "N.d.";
+    private static final String MISCELLANEOUS = "Miscellaneous";
 
     /*
      * Disable instantiation. Utility class only.
@@ -162,12 +165,31 @@ final class JSONHelper {
             for (int i = 0; i < results.length(); i++) {
                 JSONObject currentResult = results.optJSONObject(i);
                 String title = currentResult.optString(WEB_TITLE_KEY);
-                String date = currentResult.optString(WEB_PUBLICATION_DATE_KEY);
+
+                //dont add to the news if there is no title
+                if(title == null || TextUtils.isEmpty(title)){
+                    continue;
+                }
+
+                //dont add to the news if there is no url
                 String url = currentResult.optString(WEB_URL_KEY);
+                if(url == null || TextUtils.isEmpty(url)){
+                    continue;
+                }
+
+                String date = currentResult.optString(WEB_PUBLICATION_DATE_KEY);
+                //set default date if it has no date
+                if(date == null || TextUtils.isEmpty(date)){
+                    date = NO_DATE;
+                }
+                String section = currentResult.optString(SECTION_KEY);
+                //set default section if it has no section
+                if(section == null || TextUtils.isEmpty(section)){
+                    section = MISCELLANEOUS;
+                }
 
                 //assume no author found
                 String author = ANONYMOUS;
-
                 //get all the authors.
                 JSONArray authors = currentResult.optJSONArray(TAGS_KEY);
                 if (authors != null && authors.length() > 0) {
@@ -182,7 +204,7 @@ final class JSONHelper {
                     }
                     author = stringBuilder.toString();
                 }
-                newsList.add(new News(title, author, date, url));
+                newsList.add(new News(title, author, date, url, section));
             }
 
         } catch (JSONException e) {

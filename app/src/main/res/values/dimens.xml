@@ -2,4 +2,5 @@
 <resources>
     <dimen name="list_layout_padding">16dp</dimen>
     <dimen name="list_title_margin">4dp</dimen>
+    <dimen name="contributor_margin">4dp</dimen>
 </resources>
