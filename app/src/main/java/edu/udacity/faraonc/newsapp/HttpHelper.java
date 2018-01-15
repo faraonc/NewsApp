@@ -1,6 +1,10 @@
 package edu.udacity.faraonc.newsapp;
 
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -25,9 +29,9 @@ import java.util.List;
  * @author ConardJames
  * @version 010918-01
  */
-final class JSONHelper {
+final class HttpHelper {
 
-    private static final String LOG_TAG = JSONHelper.class.getSimpleName();
+    private static final String LOG_TAG = HttpHelper.class.getSimpleName();
     private static final String RESPONSE_KEY = "response";
     private static final String RESULTS_KEY = "results";
     private static final String WEB_TITLE_KEY = "webTitle";
@@ -36,15 +40,11 @@ final class JSONHelper {
     private static final String TAGS_KEY = "tags";
     private static final String AUTHOR_KEY = "webTitle";
     private static final String SECTION_KEY = "sectionName";
-    private static final String COMMA = ", ";
-    private static final String ANONYMOUS = "Anonymous";
-    private static final String NO_DATE = "N.d.";
-    private static final String MISCELLANEOUS = "Miscellaneous";
 
     /*
      * Disable instantiation. Utility class only.
      */
-    private JSONHelper() {
+    private HttpHelper() {
     }
 
     /**
@@ -53,7 +53,7 @@ final class JSONHelper {
      * @param requestUrl the url for the request
      * @return a list of News
      */
-    static List<News> fetch(String requestUrl) {
+    static List<News> fetch(String requestUrl, Context context) {
         URL url = toUrl(requestUrl);
         String jsonResponse = null;
         try {
@@ -62,8 +62,22 @@ final class JSONHelper {
             Log.e(LOG_TAG, "Error with makeHttpRequest() ", e);
         }
 
-        List<News> newsList = extractJsonValues(jsonResponse);
+        List<News> newsList = extractJsonValues(jsonResponse, context);
         return newsList;
+    }
+
+    /**
+     * Check the network prior to fetching.
+     */
+    static boolean isConnected(Context context) {
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -151,12 +165,13 @@ final class JSONHelper {
      * @param jsonResponse the server's response.
      * @return a list of News based on the server's response
      */
-    private static List<News> extractJsonValues(String jsonResponse) {
+    private static List<News> extractJsonValues(String jsonResponse, Context context) {
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
         }
 
         List<News> newsList = new ArrayList<>();
+        Resources resources = context.getResources();
 
         try {
             JSONObject response = new JSONObject(jsonResponse).optJSONObject(RESPONSE_KEY);
@@ -167,29 +182,29 @@ final class JSONHelper {
                 String title = currentResult.optString(WEB_TITLE_KEY);
 
                 //dont add to the news if there is no title
-                if(title == null || TextUtils.isEmpty(title)){
+                if (title == null || TextUtils.isEmpty(title)) {
                     continue;
                 }
 
                 //dont add to the news if there is no url
                 String url = currentResult.optString(WEB_URL_KEY);
-                if(url == null || TextUtils.isEmpty(url)){
+                if (url == null || TextUtils.isEmpty(url)) {
                     continue;
                 }
 
                 String date = currentResult.optString(WEB_PUBLICATION_DATE_KEY);
                 //set default date if it has no date
-                if(date == null || TextUtils.isEmpty(date)){
-                    date = NO_DATE;
+                if (date == null || TextUtils.isEmpty(date)) {
+                    date = resources.getString(R.string.no_date);
                 }
                 String section = currentResult.optString(SECTION_KEY);
                 //set default section if it has no section
-                if(section == null || TextUtils.isEmpty(section)){
-                    section = MISCELLANEOUS;
+                if (section == null || TextUtils.isEmpty(section)) {
+                    section = resources.getString(R.string.miscellaneous);;
                 }
 
                 //assume no author found
-                String author = ANONYMOUS;
+                String author = resources.getString(R.string.anonymous);;
                 //get all the authors.
                 JSONArray authors = currentResult.optJSONArray(TAGS_KEY);
                 if (authors != null && authors.length() > 0) {
@@ -199,7 +214,7 @@ final class JSONHelper {
                         stringBuilder.append(currentAuthor.optString(AUTHOR_KEY));
 
                         if (j < (authors.length() - 1)) {
-                            stringBuilder.append(COMMA);
+                            stringBuilder.append(resources.getString(R.string.comma));
                         }
                     }
                     author = stringBuilder.toString();

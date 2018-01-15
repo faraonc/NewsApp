@@ -45,7 +45,7 @@ class NewsLoader extends AsyncTaskLoader<List<News>> {
         if (this.url == null) {
             return null;
         }
-        List<News> newsList = JSONHelper.fetch(this.url);
+        List<News> newsList = HttpHelper.fetch(this.url, getContext());
         return newsList;
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_max_items_entries">
+        <item>@string/settings_max_10_label</item>
+        <item>@string/settings_max_25_label</item>
+        <item>@string/settings_max_50_label</item>
+        <item>@string/settings_max_75_label</item>
+        <item>@string/settings_max_100_label</item>
+    </string-array>
+
+    <string-array name="settings_max_items_values">
+        <item>@string/settings_max_10_value</item>
+        <item>@string/settings_max_25_value</item>
+        <item>@string/settings_max_50_value</item>
+        <item>@string/settings_max_75_value</item>
+        <item>@string/settings_max_100_value</item>
+    </string-array>
+</resources>
