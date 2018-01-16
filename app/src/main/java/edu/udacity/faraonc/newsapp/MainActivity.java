@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private final static String API_KEY = "4b18329f-35c4-4dee-acb6-2b74e885c526";
     private final static String API_KEY_PARAM = "api-key";
     private final static String PAGE_SIZE_PARAM = "page-size";
+    private final static String ORDER_BY_PARAM = "order-by";
 
     private final static int NEWS_LOADER_ID = 0;
     //refresh distance from SwipeRefreshLayout
@@ -178,9 +179,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         uriBuilder.appendQueryParameter(API_KEY_PARAM, API_KEY);
 
         // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
+
+        uriBuilder.appendQueryParameter(ORDER_BY_PARAM, orderBy);
+
         String maxNewsDisplayed = sharedPrefs.getString(
                 getString(R.string.settings_max_items_key),
                 getString(R.string.settings_max_items_default));
+
 
         uriBuilder.appendQueryParameter(PAGE_SIZE_PARAM, maxNewsDisplayed);
 

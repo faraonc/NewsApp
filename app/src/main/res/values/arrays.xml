@@ -15,4 +15,28 @@
         <item>@string/settings_max_75_value</item>
         <item>@string/settings_max_100_value</item>
     </string-array>
+
+    <string-array name="settings_order_by_entries">
+        <item>@string/settings_order_by_newest_label</item>
+        <item>@string/settings_order_by_oldest_label</item>
+        <item>@string/settings_order_by_relevance_label</item>
+    </string-array>
+
+    <string-array name="settings_order_by_values">
+        <item>@string/settings_order_by_newest_value</item>
+        <item>@string/settings_order_by_oldest_value</item>
+        <item>@string/settings_order_by_relevance_value</item>
+    </string-array>
+
+    <string-array name="settings_production_origin_entries">
+        <item>@string/settings_production_us_label</item>
+        <item>@string/settings_production_uk_label</item>
+        <item>@string/settings_production_aus_label</item>
+    </string-array>
+
+    <string-array name="settings_production_origin_values">
+        <item>@string/settings_production_us_value</item>
+        <item>@string/settings_production_uk_value</item>
+        <item>@string/settings_production_aus_value</item>
+    </string-array>
 </resources>

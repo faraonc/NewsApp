@@ -27,8 +27,32 @@
     <string name="settings_max_100_label">100</string>
     <string name="settings_max_100_value" translatable="false">100</string>
 
+    <!--Strings for Order-by Preference List-->
+    <string name="settings_order_by_label">Order-by</string>
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_newest_value</string>
+
+    <string name="settings_order_by_newest_label">Newest</string>
+    <string name="settings_order_by_newest_value" translatable="false">newest</string>
+    <string name="settings_order_by_oldest_label">Oldest</string>
+    <string name="settings_order_by_oldest_value" translatable="false">oldest</string>
+    <string name="settings_order_by_relevance_label">Relevance</string>
+    <string name="settings_order_by_relevance_value" translatable="false">relevance</string>
+
+    <!--Strings for Production Origin Preference List-->
+    <string name="settings_production_origin_label">Production Origin</string>
+    <string name="settings_production_origin_dialog">Choose Production Origin</string>
+    <string name="settings_production_origin_key" translatable="false">production_origin</string>
+
+    <string name="settings_production_us_label">U.S.A.</string>
+    <string name="settings_production_us_value" translatable="false">us</string>
+    <string name="settings_production_uk_label">U.K.</string>
+    <string name="settings_production_uk_value" translatable="false">uk</string>
+    <string name="settings_production_aus_label">Australia</string>
+    <string name="settings_production_aus_value" translatable="false">aus</string>
 
     <string name="comma">,\u0020</string>
+    <string name="space">\u0020</string>
     <string name="anonymous">Anonymous</string>
     <string name="no_date">N.d.</string>
     <string name="miscellaneous">Miscellaneous</string>

@@ -7,7 +7,21 @@
         android:entries="@array/settings_max_items_entries"
         android:entryValues="@array/settings_max_items_values"
         android:key="@string/settings_max_items_key"
-        android:title="@string/settings_max_items_label"  />
+        android:title="@string/settings_max_items_label" />
 
+    <ListPreference
+        android:defaultValue="@string/settings_order_by_default"
+        android:entries="@array/settings_order_by_entries"
+        android:entryValues="@array/settings_order_by_values"
+        android:key="@string/settings_order_by_key"
+        android:title="@string/settings_order_by_label" />
+
+    <MultiSelectListPreference
+        android:defaultValue="@array/settings_production_origin_values"
+        android:dialogTitle="@string/settings_production_origin_dialog"
+        android:entries="@array/settings_production_origin_entries"
+        android:entryValues="@array/settings_production_origin_values"
+        android:key="@string/settings_production_origin_key"
+        android:title="@string/settings_production_origin_label" />
 
 </PreferenceScreen>
