@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The main activity of the application.
@@ -30,13 +32,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
 
     private final static String LOG_TAG = MainActivity.class.getName();
-
-    private final static String URL_QUERY = "http://content.guardianapis.com/search?order-by=newest&show-tags=contributor&rights=developer-community&q=Military%20AND%20Technology%20AND%20Computer%20AND%20Science";
-    private final static String API_KEY = "4b18329f-35c4-4dee-acb6-2b74e885c526";
-    private final static String API_KEY_PARAM = "api-key";
-    private final static String PAGE_SIZE_PARAM = "page-size";
-    private final static String ORDER_BY_PARAM = "order-by";
-
     private final static int NEWS_LOADER_ID = 0;
     //refresh distance from SwipeRefreshLayout
     private static final int REFRESH_DISTANCE = 300;
@@ -46,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView emptyStateTextView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LoaderManager loaderManager;
+    private View loadingIndicator;
 
     @Override
     /**
@@ -57,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.loaderManager = getLoaderManager();
+
+        this.loadingIndicator = findViewById(R.id.loading_spinner);
         this.newsListView = (ListView) findViewById(R.id.list);
 
         //prevents conflict when scrolling up between the SwipeRefreshLayout and ListView
@@ -74,6 +72,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         newsListView.setAdapter(this.newsAdapter);
         newsListView.setOnItemClickListener(onItemClickListener);
         display();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (HttpHelper.isConnected(MainActivity.this)) {
+            this.newsAdapter.clear();
+            this.emptyStateTextView.setVisibility(View.GONE);
+            showLoadingIndicator();
+            loaderManager.restartLoader(NEWS_LOADER_ID, null, MainActivity.this);
+        } else {
+            View loadingIndicator = findViewById(R.id.loading_spinner);
+            loadingIndicator.setVisibility(View.GONE);
+            this.newsAdapter.clear();
+            this.emptyStateTextView.setText(R.string.no_internet_connection);
+        }
+    }
+
+    private void showLoadingIndicator(){
+        if(!this.loadingIndicator.isShown()){
+            this.loadingIndicator.setVisibility(View.VISIBLE);
+        }
     }
 
     /*
@@ -116,12 +136,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 loaderManager.restartLoader(NEWS_LOADER_ID, null, MainActivity.this);
             } else {
                 View loadingIndicator = findViewById(R.id.loading_spinner);
-                loadingIndicator.setVisibility(View.GONE);
+                loadingIndicator.setVisibility(View.INVISIBLE);
                 newsAdapter.clear();
                 emptyStateTextView.setText(R.string.no_internet_connection);
                 swipeRefreshLayout.setRefreshing(false);
             }
-
         }
     };
 
@@ -153,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private void display() {
 
         if (HttpHelper.isConnected(this)) {
+            showLoadingIndicator();
             this.loaderManager.initLoader(NEWS_LOADER_ID, null, this);
         } else {
             View loadingIndicator = findViewById(R.id.loading_spinner);
@@ -173,25 +193,52 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         // parse breaks apart the URI string that's passed into its parameter
-        Uri baseUri = Uri.parse(URL_QUERY);
+        Uri baseUri = Uri.parse(getString(R.string.url_query));
         // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
         Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter(API_KEY_PARAM, API_KEY);
+        uriBuilder.appendQueryParameter(getString(R.string.api_key_param), getString(R.string.api_key));
 
         // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
-        String orderBy = sharedPrefs.getString(
-                getString(R.string.settings_order_by_key),
-                getString(R.string.settings_order_by_default));
+        String orderBy = sharedPrefs.getString(getString(R.string.settings_order_by_key), getString(R.string.settings_order_by_default));
+        uriBuilder.appendQueryParameter(getString(R.string.order_by_param), orderBy);
 
-        uriBuilder.appendQueryParameter(ORDER_BY_PARAM, orderBy);
+        String orderDate = sharedPrefs.getString(getString(R.string.settings_order_date_key), getString(R.string.settings_order_date_default));
+        uriBuilder.appendQueryParameter(getString(R.string.order_date_param), orderDate);
 
-        String maxNewsDisplayed = sharedPrefs.getString(
-                getString(R.string.settings_max_items_key),
-                getString(R.string.settings_max_items_default));
+        String maxNewsDisplayed = sharedPrefs.getString(getString(R.string.settings_max_items_key), getString(R.string.settings_max_items_default));
+        uriBuilder.appendQueryParameter(getString(R.string.page_size_param), maxNewsDisplayed);
 
+        String mediaContent = sharedPrefs.getString(getString(R.string.settings_media_content_key), getString(R.string.settings_media_content_default));
+        uriBuilder.appendQueryParameter(getString(R.string.media_content_param), mediaContent);
 
-        uriBuilder.appendQueryParameter(PAGE_SIZE_PARAM, maxNewsDisplayed);
+        Set<String> productionOffices = sharedPrefs.getStringSet(getString(R.string.settings_production_origin_key), null);
+        StringBuilder officesBuilder = new StringBuilder();
+        //set default
+        if (productionOffices != null && !productionOffices.isEmpty()) {
+            int index = 0;
+            for (String office : productionOffices) {
+                index++;
+                officesBuilder.append(office);
+                if (index < productionOffices.size()) {
+                    officesBuilder.append(getString(R.string.pipe));
+                }
+            }
+            uriBuilder.appendQueryParameter(getString(R.string.production_office_param), officesBuilder.toString());
+        }
 
+        String searchNewsContent = sharedPrefs.getString(getString(R.string.settings_search_news_key), getString(R.string.settings_search_news_default));
+        if(!searchNewsContent.equals(getString(R.string.settings_search_news_default)) && searchNewsContent.trim().length() > 0
+                && searchNewsContent.matches(".*\\w.*") && searchNewsContent.length() > 0){
+            StringBuilder orQueryBuilder = new StringBuilder();
+            orQueryBuilder.append(getString(R.string.default_query_theme));
+            orQueryBuilder.append(getString(R.string.and));
+            orQueryBuilder.append(getString(R.string.open_paren));
+            orQueryBuilder.append(searchNewsContent);
+            orQueryBuilder.append(getString(R.string.close_paren));
+            uriBuilder.appendQueryParameter(getString(R.string.query_param), orQueryBuilder.toString());
+        }else{
+            uriBuilder.appendQueryParameter(getString(R.string.query_param), getString(R.string.default_query_theme));
+        }
 
         return new NewsLoader(this, uriBuilder.toString());
     }
@@ -208,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         View loadingIndicator = findViewById(R.id.loading_spinner);
         loadingIndicator.setVisibility(View.GONE);
 
+        this.emptyStateTextView.setVisibility(View.VISIBLE);
         this.emptyStateTextView.setText(R.string.no_news);
         this.newsAdapter.clear();
         if (newsList != null && !newsList.isEmpty()) {
@@ -246,5 +294,4 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
-    //TODO implement onResume from Preferences update
 }

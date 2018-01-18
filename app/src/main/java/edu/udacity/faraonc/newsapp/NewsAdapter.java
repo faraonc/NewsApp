@@ -66,7 +66,7 @@ class NewsAdapter extends ArrayAdapter {
         String dateString = item.getDate();
 
         try {
-            Date dateObject = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(dateString);
+            Date dateObject = new SimpleDateFormat(getContext().getString(R.string.date_format)).parse(dateString);
             String formattedDate = formatDate(dateObject);
             String formattedTime = formatTime(dateObject);
             StringBuilder stringBuilder = new StringBuilder();
@@ -96,7 +96,7 @@ class NewsAdapter extends ArrayAdapter {
      * @return the formatted String representation
      */
     private String formatDate(Date dateObject) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(getContext().getString(R.string.julian_calendar_format));
         return dateFormat.format(dateObject);
     }
 
@@ -107,7 +107,7 @@ class NewsAdapter extends ArrayAdapter {
      * @return the formatted String representation
      */
     private String formatTime(Date dateObject) {
-        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+        SimpleDateFormat timeFormat = new SimpleDateFormat(getContext().getString(R.string.twelve_hour_format));
         return timeFormat.format(dateObject);
     }
 

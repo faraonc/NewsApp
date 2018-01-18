@@ -2,6 +2,29 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings_title">
 
+    <EditTextPreference
+        android:defaultValue="@string/settings_search_news_default"
+        android:inputType="text"
+        android:key="@string/settings_search_news_key"
+        android:maxLength="25"
+        android:selectAllOnFocus="true"
+        android:title="@string/settings_search_news_label" />
+
+    <ListPreference
+        android:defaultValue="@string/settings_media_content_default"
+        android:entries="@array/settings_media_content_entries"
+        android:entryValues="@array/settings_media_content_values"
+        android:key="@string/settings_media_content_key"
+        android:title="@string/settings_media_content_label" />
+
+    <MultiSelectListPreference
+        android:dialogTitle="@string/settings_production_origin_dialog"
+        android:entries="@array/settings_production_origin_entries"
+        android:entryValues="@array/settings_production_origin_values"
+        android:key="@string/settings_production_origin_key"
+        android:summary="@string/all"
+        android:title="@string/settings_production_origin_label" />
+
     <ListPreference
         android:defaultValue="@string/settings_max_items_default"
         android:entries="@array/settings_max_items_entries"
@@ -16,12 +39,15 @@
         android:key="@string/settings_order_by_key"
         android:title="@string/settings_order_by_label" />
 
-    <MultiSelectListPreference
-        android:defaultValue="@array/settings_production_origin_values"
-        android:dialogTitle="@string/settings_production_origin_dialog"
-        android:entries="@array/settings_production_origin_entries"
-        android:entryValues="@array/settings_production_origin_values"
-        android:key="@string/settings_production_origin_key"
-        android:title="@string/settings_production_origin_label" />
+    <ListPreference
+        android:defaultValue="@string/settings_order_date_default"
+        android:entries="@array/settings_order_date_entries"
+        android:entryValues="@array/settings_order_date_values"
+        android:key="@string/settings_order_date_key"
+        android:title="@string/settings_order_date_label" />
+
+    <Preference android:title="@string/settings_default_label"
+        android:key="@string/settings_default_key"
+        android:summary="@string/settings_default_summary"/>
 
 </PreferenceScreen>

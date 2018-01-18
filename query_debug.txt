@@ -1,0 +1,7 @@
+MY QUERY:
+
+http://content.guardianapis.com/search?show-tags=contributor&rights=developer-community&api-key=4b18329f-35c4-4dee-acb6-2b74e885c526&order-by=newest&use-date=newspaper-edition&page-size=25&production-office=uk%20%7C%20us%20%7C%20aus&q=military%20AND%20technology%20AND%20computer%20AND%20science
+
+SAMPLE QUERY:
+
+http://content.guardianapis.com/search?production-office=uk%20%7C%20us%20%7C%20aus&order-by=newest&use-date=newspaper-edition&show-tags=contributor&page-size=25&rights=developer-community&q=military%20AND%20technology%20AND%20computer%20AND%20science&api-key=4b18329f-35c4-4dee-acb6-2b74e885c526

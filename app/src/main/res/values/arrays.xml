@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--Strings for Maximum Displayed News Preference List-->
     <string-array name="settings_max_items_entries">
         <item>@string/settings_max_10_label</item>
         <item>@string/settings_max_25_label</item>
@@ -16,6 +18,7 @@
         <item>@string/settings_max_100_value</item>
     </string-array>
 
+    <!--Strings for Order-by Preference List-->
     <string-array name="settings_order_by_entries">
         <item>@string/settings_order_by_newest_label</item>
         <item>@string/settings_order_by_oldest_label</item>
@@ -28,15 +31,44 @@
         <item>@string/settings_order_by_relevance_value</item>
     </string-array>
 
+    <!--Strings for Order-date Preference List-->
+    <string-array name="settings_order_date_entries">
+        <item>@string/settings_order_date_published_label</item>
+        <item>@string/settings_order_date_newspaper_label</item>
+        <item>@string/settings_order_date_modified_label</item>
+    </string-array>
+
+    <string-array name="settings_order_date_values">
+        <item>@string/settings_order_date_published_value</item>
+        <item>@string/settings_order_date_newspaper_value</item>
+        <item>@string/settings_order_date_modified_value</item>
+    </string-array>
+
+    <!--Strings for Production Origin Preference List-->
     <string-array name="settings_production_origin_entries">
-        <item>@string/settings_production_us_label</item>
-        <item>@string/settings_production_uk_label</item>
         <item>@string/settings_production_aus_label</item>
+        <item>@string/settings_production_uk_label</item>
+        <item>@string/settings_production_us_label</item>
     </string-array>
 
     <string-array name="settings_production_origin_values">
-        <item>@string/settings_production_us_value</item>
-        <item>@string/settings_production_uk_value</item>
         <item>@string/settings_production_aus_value</item>
+        <item>@string/settings_production_uk_value</item>
+        <item>@string/settings_production_us_value</item>
+    </string-array>
+
+    <!--Strings for News Media Content Preference List-->
+    <string-array name="settings_media_content_entries">
+        <item>@string/settings_media_content_all_label</item>
+        <item>@string/settings_media_content_audio_label</item>
+        <item>@string/settings_media_content_image_label</item>
+        <item>@string/settings_media_content_video_label</item>
+    </string-array>
+
+    <string-array name="settings_media_content_values">
+        <item>@string/settings_media_content_all_value</item>
+        <item>@string/settings_media_content_audio_value</item>
+        <item>@string/settings_media_content_image_value</item>
+        <item>@string/settings_media_content_video_value</item>
     </string-array>
 </resources>

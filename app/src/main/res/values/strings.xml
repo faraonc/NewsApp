@@ -4,12 +4,63 @@
     <string name="place_holder_contributor">Mark Lawson</string>
     <string name="place_holder_section">Technology</string>
     <string name="place_holder_date">Jan 4, 2018 11:46 PM</string>
+    <string name="confirm_reset">Confirm Reset</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">cancel</string>
     <string name="empty"> </string>
+    <string name="comma_delimiter">,\u0020</string>
+    <string name="space">\u0020</string>
+    <string name="pipe">\u0020|\u0020</string>
+    <string name="open_paren">(</string>
+    <string name="close_paren">)</string>
+    <string name="and">\u0020AND\u0020</string>
     <string name="no_internet_connection">No internet connection.</string>
     <string name="no_news">No news, swipe down to refresh.</string>
+    <string name="all">All</string>
+    <string name="anonymous">Anonymous</string>
+    <string name="no_date">N.d.</string>
+    <string name="miscellaneous">Miscellaneous</string>
 
+    <!--MainActivity Required Strings-->
+
+    <string name="url_query">http://content.guardianapis.com/search?show-tags=contributor\u0026rights=developer-community</string>
+    <string name="api_key">4b18329f-35c4-4dee-acb6-2b74e885c526</string>
+    <string name="default_query_theme">technology</string>
+    <string name="query_param">q</string>
+    <string name="api_key_param">api-key</string>
+    <string name="page_size_param">page-size</string>
+    <string name="order_by_param">order-by</string>
+    <string name="order_date_param">use-date</string>
+    <string name="production_office_param">production-office</string>
+    <string name="media_content_param">show-elements</string>
+
+    <!--NewsAdapter Required Strings-->
+    <string name="date_format">yyyy-MM-dd\'T\'HH:mm:ssX</string>
+    <string name="julian_calendar_format">LLL dd, yyyy</string>
+    <string name="twelve_hour_format">h:mm a</string>
+
+    <!--HttpHelper HTTP Required Strings-->
+    <string name="get">GET</string>
+    <string name="char_format">UTF-8</string>
+
+    <!--HttpHelper Keys-->
+    <string name="response_key">response</string>
+    <string name="results_key">results</string>
+    <string name="web_title_key">webTitle</string>
+    <string name="web_url_key">webUrl</string>
+    <string name="web_publication_date_key">webPublicationDate</string>
+    <string name="tags_key">tags</string>
+    <string name="author_key">webTitle</string>
+    <string name="section_key">sectionName</string>
+
+    <!--Strings for Settings-->
     <string name="settings_menu_item">Settings</string>
     <string name="settings_title">What Tech News? Settings</string>
+
+    <!--Strings for Search News Content-->
+    <string name="settings_search_news_label">Search News Content</string>
+    <string name="settings_search_news_key" translatable="false">search_news_content</string>
+    <string name="settings_search_news_default" translatable="false">None</string>
 
     <!--Strings for Maximum Displayed News Preference List-->
     <string name="settings_max_items_label">Maximum Displayed News</string>
@@ -39,23 +90,47 @@
     <string name="settings_order_by_relevance_label">Relevance</string>
     <string name="settings_order_by_relevance_value" translatable="false">relevance</string>
 
+    <!--Strings for Order-date Preference List-->
+    <string name="settings_order_date_label">Order-date</string>
+    <string name="settings_order_date_key" translatable="false">order_date</string>
+    <string name="settings_order_date_default" translatable="false">@string/settings_order_date_published_value</string>
+
+    <string name="settings_order_date_published_label">Published</string>
+    <string name="settings_order_date_published_value" translatable="false">published</string>
+    <string name="settings_order_date_newspaper_label">Newspaper Edition</string>
+    <string name="settings_order_date_newspaper_value" translatable="false">newspaper-edition</string>
+    <string name="settings_order_date_modified_label">Last Modified</string>
+    <string name="settings_order_date_modified_value" translatable="false">last-modified</string>
+
     <!--Strings for Production Origin Preference List-->
-    <string name="settings_production_origin_label">Production Origin</string>
-    <string name="settings_production_origin_dialog">Choose Production Origin</string>
+    <string name="settings_production_origin_label">Country Origin</string>
+    <string name="settings_production_origin_dialog">Choose Country Origin</string>
     <string name="settings_production_origin_key" translatable="false">production_origin</string>
 
-    <string name="settings_production_us_label">U.S.A.</string>
-    <string name="settings_production_us_value" translatable="false">us</string>
-    <string name="settings_production_uk_label">U.K.</string>
-    <string name="settings_production_uk_value" translatable="false">uk</string>
     <string name="settings_production_aus_label">Australia</string>
     <string name="settings_production_aus_value" translatable="false">aus</string>
+    <string name="settings_production_uk_label">United Kingdom</string>
+    <string name="settings_production_uk_value" translatable="false">uk</string>
+    <string name="settings_production_us_label">United States</string>
+    <string name="settings_production_us_value" translatable="false">us</string>
 
-    <string name="comma">,\u0020</string>
-    <string name="space">\u0020</string>
-    <string name="anonymous">Anonymous</string>
-    <string name="no_date">N.d.</string>
-    <string name="miscellaneous">Miscellaneous</string>
+    <!--Strings for Media Content Preference List-->
+    <string name="settings_media_content_label">News Media Content</string>
+    <string name="settings_media_content_key" translatable="false">media_content</string>
+    <string name="settings_media_content_default" translatable="false">@string/settings_media_content_all_value</string>
 
+    <string name="settings_media_content_all_label">@string/all</string>
+    <string name="settings_media_content_all_value" translatable="false">all</string>
+    <string name="settings_media_content_audio_label">Audio</string>
+    <string name="settings_media_content_audio_value" translatable="false">audio</string>
+    <string name="settings_media_content_image_label">Image</string>
+    <string name="settings_media_content_image_value" translatable="false">image</string>
+    <string name="settings_media_content_video_label">Video</string>
+    <string name="settings_media_content_video_value" translatable="false">video</string>
+
+    <!--Strings for Default Settings-->
+    <string name="settings_default_label">Default</string>
+    <string name="settings_default_key" translatable="false">default_setting</string>
+    <string name="settings_default_summary" translatable="false">Reset settings</string>
 
 </resources>
