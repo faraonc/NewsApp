@@ -10,7 +10,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,11 +26,10 @@ import java.util.Set;
  * The main activity of the application.
  *
  * @author ConardJames
- * @version 010918-01
+ * @version 011718-01
  */
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
 
-    private final static String LOG_TAG = MainActivity.class.getName();
     private final static int NEWS_LOADER_ID = 0;
     //refresh distance from SwipeRefreshLayout
     private static final int REFRESH_DISTANCE = 300;
@@ -75,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
+    /**
+     * Handles the back button.
+     */
     public void onResume() {
         super.onResume();
         if (HttpHelper.isConnected(MainActivity.this)) {
@@ -90,8 +91,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
-    private void showLoadingIndicator(){
-        if(!this.loadingIndicator.isShown()){
+    /**
+     * Shows the loading indicator.
+     */
+    private void showLoadingIndicator() {
+        if (!this.loadingIndicator.isShown()) {
             this.loadingIndicator.setVisibility(View.VISIBLE);
         }
     }
@@ -213,7 +217,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         Set<String> productionOffices = sharedPrefs.getStringSet(getString(R.string.settings_production_origin_key), null);
         StringBuilder officesBuilder = new StringBuilder();
-        //set default
         if (productionOffices != null && !productionOffices.isEmpty()) {
             int index = 0;
             for (String office : productionOffices) {
@@ -227,8 +230,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
         String searchNewsContent = sharedPrefs.getString(getString(R.string.settings_search_news_key), getString(R.string.settings_search_news_default));
-        if(!searchNewsContent.equals(getString(R.string.settings_search_news_default)) && searchNewsContent.trim().length() > 0
-                && searchNewsContent.matches(".*\\w.*") && searchNewsContent.length() > 0){
+        if (!searchNewsContent.equals(getString(R.string.settings_search_news_default)) && searchNewsContent.trim().length() > 0
+                && searchNewsContent.matches(".*\\w.*") && searchNewsContent.length() > 0) {
             StringBuilder orQueryBuilder = new StringBuilder();
             orQueryBuilder.append(getString(R.string.default_query_theme));
             orQueryBuilder.append(getString(R.string.and));
@@ -236,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             orQueryBuilder.append(searchNewsContent);
             orQueryBuilder.append(getString(R.string.close_paren));
             uriBuilder.appendQueryParameter(getString(R.string.query_param), orQueryBuilder.toString());
-        }else{
+        } else {
             uriBuilder.appendQueryParameter(getString(R.string.query_param), getString(R.string.default_query_theme));
         }
 
@@ -275,7 +278,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    // This method initialize the contents of the Activity's options menu.
+    /**
+     * This method initialize the contents of the Activity's options menu.
+     *
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the Options Menu we specified in XML
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -283,6 +289,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
+    /**
+     * Start SettingsActivity for preferences.
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
@@ -292,6 +301,5 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 }

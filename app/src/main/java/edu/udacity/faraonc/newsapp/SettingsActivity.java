@@ -1,6 +1,5 @@
 package edu.udacity.faraonc.newsapp;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.ListPreference;
@@ -14,16 +13,36 @@ import android.os.Bundle;
 
 import java.util.Set;
 
+/**
+ * The settings activity to change user preferences.
+ *
+ * @author ConardJames
+ * @version 011718-01
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
+    /**
+     * Create the view and set the state for the activity.
+     *
+     * @param savedInstanceState the saved state of the app if not null
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
     }
 
+    /**
+     * The preference fragment to save user settings.
+     */
     public static class NewsPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
+
         @Override
+        /**
+         * Create the view and set the state for the activity.
+         *
+         * @param savedInstanceState the saved state of the app if not null
+         */
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_main);
@@ -52,15 +71,21 @@ public class SettingsActivity extends AppCompatActivity {
             Preference orderDate = findPreference(getString(R.string.settings_order_date_key));
             bindPreferenceSummaryToValue(orderDate);
 
-
+            //add a button for resetting preferences
             Preference button = findPreference(getString(R.string.settings_default_key));
             button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
+                        /**
+                         * Handles the buttons from the dialog box.
+                         *
+                         * @param the dialog box
+                         * @param the button pressed
+                         */
                         public void onClick(DialogInterface dialog, int which) {
-                            switch (which){
+                            switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
                                     resetDefaultSettings();
                                     break;
@@ -80,11 +105,16 @@ public class SettingsActivity extends AppCompatActivity {
 
         }
 
-        private void resetDefaultSettings(){
+        /**
+         * Reset to default settings
+         */
+        private void resetDefaultSettings() {
+
+            //clear the settings
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
             SharedPreferences.Editor editor = settings.edit();
             editor.clear();
-            editor.commit();
+            editor.apply();
 
             //reset summaries
             Preference searchNewsContent = findPreference(getString(R.string.settings_search_news_key));
@@ -108,15 +138,18 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         @Override
+        /**
+         * Updates the summary on preference changes.
+         */
         public boolean onPreferenceChange(Preference preference, Object value) {
 
             if (preference instanceof MultiSelectListPreference) {
                 MultiSelectListPreference multiSelectListPreference = (MultiSelectListPreference) preference;
                 Set<String> stringSet = (Set<String>) value;
 
-                if(stringSet == null || stringSet.isEmpty()) {
+                if (stringSet == null || stringSet.isEmpty()) {
                     preference.setSummary(getString(R.string.all));
-                }else{
+                } else {
                     StringBuilder stringBuilder = new StringBuilder();
                     int index = 0;
                     for (String stringValue : stringSet) {
@@ -132,8 +165,6 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                     preference.setSummary(stringBuilder.toString());
                 }
-
-
             } else if (preference instanceof ListPreference) {
                 String stringValue = value.toString();
                 ListPreference listPreference = (ListPreference) preference;
@@ -142,21 +173,24 @@ public class SettingsActivity extends AppCompatActivity {
                     CharSequence[] labels = listPreference.getEntries();
                     preference.setSummary(labels[prefIndex]);
                 }
-
             } else {
                 String stringValue = value.toString();
-                if(!stringValue.equals(getString(R.string.settings_search_news_default)) && stringValue.trim().length() > 0
-                        && stringValue.matches(".*\\w.*") && stringValue.length() > 0){
+                if (!stringValue.equals(getString(R.string.settings_search_news_default)) && stringValue.trim().length() > 0
+                        && stringValue.matches(".*\\w.*") && stringValue.length() > 0) {
 
                     preference.setSummary(stringValue);
-                }else{
+                } else {
                     preference.setSummary(getString(R.string.settings_search_news_default));
                 }
             }
             return true;
         }
 
-
+        /**
+         * Binds the summary and value for MultiSelectListPreference.
+         *
+         * @param preference used by the user.
+         */
         private void bindPreferenceSummaryToValue(Preference preference) {
             preference.setOnPreferenceChangeListener(this);
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
@@ -164,6 +198,11 @@ public class SettingsActivity extends AppCompatActivity {
             onPreferenceChange(preference, preferenceString);
         }
 
+        /**
+         * Binds the summary and value for non-MultiSelectListPreference.
+         *
+         * @param preference used by the user.
+         */
         private void bindMultiPreferenceListSummaryToValue(Preference preference) {
             preference.setOnPreferenceChangeListener(this);
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());

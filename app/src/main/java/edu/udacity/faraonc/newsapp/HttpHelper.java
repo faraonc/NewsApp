@@ -26,7 +26,7 @@ import java.util.List;
  * Utility class for accessing external web services using JSON formatted data.
  *
  * @author ConardJames
- * @version 010918-01
+ * @version 011718-01
  */
 final class HttpHelper {
 
