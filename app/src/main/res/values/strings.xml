@@ -35,7 +35,7 @@
     <string name="media_content_param">show-elements</string>
 
     <!--NewsAdapter Required Strings-->
-    <string name="date_format">yyyy-MM-dd\'T\'HH:mm:ssX</string>
+    <string name="date_format">yyyy-MM-dd\'T\'HH:mm:ss</string>
     <string name="julian_calendar_format">LLL dd, yyyy</string>
     <string name="twelve_hour_format">h:mm a</string>
 
